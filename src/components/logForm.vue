@@ -15,7 +15,7 @@
       <a class="button" @click="onLogin">登录</a>
     </div>
   </div>
-  <p>{{errorText}}</p>
+  <p>{{ errorText }}</p>
 </div>
 </template>
 

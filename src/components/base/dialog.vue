@@ -68,7 +68,7 @@ export default {
     width: 50%;
     position: fixed;
     max-height: 50%;
-    overflow: hidden;
+    overflow: auto;
     top: 20%;
     left: 50%;
     margin-left: -25%;
