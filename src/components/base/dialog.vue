@@ -1,12 +1,14 @@
 <template>
-  <div class="dialog-wrapper">
-    <div class="dialog-cover" v-if="isShow" @click="closeMyself"></div>
-    <transition name="drop">
-    <div class="dialog-content" v-if="isShow" >
-      <p class="dialog-close" @click="closeMyself">x</p>
-      <slot></slot>
+  <div>
+    <div class="dialog-wrap">
+      <div class="dialog-cover"  v-if="isShow" @click="closeMyself"></div>
+      <transition name="drop">
+        <div class="dialog-content"  v-if="isShow">
+          <p class="dialog-close" @click="closeMyself">x</p>
+          <slot>empty</slot>
+        </div>
+      </transition>
     </div>
-    </transition>
   </div>
 </template>
 
@@ -15,14 +17,12 @@ export default {
   props: {
     isShow: {
       type: Boolean,
-      default () {
-        return false
-      }
+      default: false
     }
   },
-  name: '',
   data () {
     return {
+
     }
   },
   methods: {
@@ -43,16 +43,15 @@ export default {
   .drop-enter {
     transform: translateY(-500px);
   }
-  .drop-leave-to {
+  .drop-leave-active {
     transform: translateY(-500px);
   }
 
-  .dialog-wrapper {
+  .dialog-wrap {
     position: fixed;
     width: 100%;
     height: 100%;
   }
-
   .dialog-cover {
     background: #000;
     opacity: .3;
@@ -63,12 +62,12 @@ export default {
     width: 100%;
     height: 100%;
   }
-
   .dialog-content {
     width: 50%;
     position: fixed;
     max-height: 50%;
     overflow: auto;
+    background: #fff;
     top: 20%;
     left: 50%;
     margin-left: -25%;
@@ -76,9 +75,7 @@ export default {
     border: 2px solid #464068;
     padding: 2%;
     line-height: 1.6;
-    background: #fff;
   }
-
   .dialog-close {
     position: absolute;
     right: 5px;
@@ -88,9 +85,7 @@ export default {
     text-align: center;
     cursor: pointer;
   }
-
   .dialog-close:hover {
     color: #4fc08d;
   }
-
 </style>

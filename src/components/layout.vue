@@ -32,7 +32,7 @@
       <login-form @has-log="onSuccessLog"></login-form>
     </my-dialog>
     <my-dialog :isShow="isShowRegDialog" @on-close="closeDialog('isShowRegDialog')">
-      <reg-form></reg-form>
+      <reg-form @on-reg="onSuccessReg"></reg-form>
     </my-dialog>
   </div>
 </template>
@@ -72,6 +72,9 @@ export default {
       this.username = ''
     },
     onSuccessLog (data) {
+      this.name = data.name
+    },
+    onSuccessReg (data) {
       this.name = data.name
     }
   }
@@ -162,7 +165,7 @@ export default {
     background: #e3e4e8;
     clear: both;
     margin-top: 30px;
-    position: fixed;
+    /*position: fixed;*/
     bottom: 0;
   }
 

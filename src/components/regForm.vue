@@ -1,29 +1,36 @@
 <template>
   <div class="login-form">
-    <div class="g-form">
-      <div class="g-form-line" v-for="formLine in formData" :key="formLine.id">
-        <span class="g-form-label">{{ formLine.label }}：</span>
-        <div class="g-form-input">
-          <input type="text" v-model="formLine.model" placeholder="请输入用户名">
-        </div>
-      </div>
-      <div class="g-form-line">
-        <div class="g-form-btn">
-          <a class="button" @click="onLogin">登录</a>
-        </div>
+    <div class="g-form-line">
+      <span class="g-form-label">用户名:</span>
+      <div class="g-form-input"><input type="text" placeholder="请输入用户名" v-model="usernameModel"></div>
+    </div>
+    <span class="g-form-error">{{ userErrors.errorText }}</span>
+    <div class="g-form-line">
+      <span class="g-form-label">密码:</span>
+      <div class="g-form-input"><input type="text" placeholder="请输入密码" v-model="passwordModel"></div>
+    </div>
+    <span class="g-form-error">{{ passwordErrors.errorText }}</span>
+    <div class="g-form-line">
+      <span class="g-form-label">密码确认:</span>
+      <div class="g-form-input"><input type="text" placeholder="请再次密码" v-model="passwordValidaModel"></div>
+    </div>
+    <span class="g-form-error">{{ passwordValidaErrors.errorText }}</span>
+    <div class="g-form-line">
+      <div class="g-form-btn">
+        <a class="button" @click="registered">注册</a>
       </div>
     </div>
+    <p>{{ errorText }}</p>
   </div>
 </template>
-
 <script>
 export default {
-  props: {
-    'isShow': 'boolean'
-  },
   data () {
     return {
-
+      usernameModel: '',
+      passwordModel: '',
+      passwordValidaModel: '',
+      errorText: ''
     }
   },
   computed: {
@@ -43,9 +50,23 @@ export default {
     },
     passwordErrors () {
       let status, errorText
-      if (!/@/g.test(this.usernameModel)) {
+      if (!/^\w{1,6}$/g.test(this.passwordModel)) {
         status = false
-        errorText = '必须包含@'
+        errorText = '密码不是1-6位'
+      } else {
+        status = true
+        errorText = ''
+      }
+      return {
+        status,
+        errorText
+      }
+    },
+    passwordValidaErrors () {
+      let status, errorText
+      if (this.passwordModel !== this.passwordValidaModel) {
+        status = false
+        errorText = '两次密码输入不一致'
       } else {
         status = true
         errorText = ''
@@ -57,8 +78,20 @@ export default {
     }
   },
   methods: {
-    closeMyself () {
-      this.$emit('on-close')
+    registered () {
+      if (!this.userErrors.status || !this.passwordErrors.status || !this.passwordValidaErrors.status) {
+        this.errorText = '部分选项未通过'
+      } else {
+        this.errorText = ''
+        this.$http.post('/api/register', {username: this.usernameModel, password: this.passwordModel}).then(
+          (res) => {
+            this.$emit('on-reg', res.data)
+          },
+          (err) => {
+            console.log(err)
+          }
+        )
+      }
     }
   }
 }
