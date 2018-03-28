@@ -98,8 +98,7 @@ export default {
           key: 'amount'
         }
       ],
-      currentOrder: 'asc',
-      tableData: []
+      currentOrder: 'asc'
     }
   },
   watch: {
@@ -109,32 +108,28 @@ export default {
   },
   methods: {
     productChange (obj) {
-      this.productId = obj.value
+      this.$store.commit('updateParams', {
+        key: 'productId',
+        val: obj.value
+      })
       this.getList()
     },
     getStartDate (date) {
-      this.startDate = date
+      this.$store.commit('updateParams', {
+        key: 'startDate',
+        val: date
+      })
       this.getList()
     },
     getEndDate (date) {
-      this.endDate = date
+      this.$store.commit('updateParams', {
+        key: 'endDate',
+        val: date
+      })
       this.getList()
     },
     getList () {
-      let reqParams = {
-        query: this.query,
-        productId: this.productId,
-        startDate: this.startDate,
-        endDate: this.endDate
-      }
-      this.$http.post('/api/get-order-list', reqParams).then(
-        (res) => {
-          this.tableData = res.data.data.list
-          console.log(this.tableData)
-        },
-        (err) => {
-          console.log(err)
-        })
+      this.$store.dispatch('fetchOrderList')
     },
     changeOrderType (headItem) {
       this.tableHeads.map((item) => {
@@ -151,7 +146,12 @@ export default {
     }
   },
   mounted () {
-    this.getList()
+    this.$store.dispatch('fetchOrderList')
+  },
+  computed: {
+    tableData () {
+      return this.$store.getters.getOrderList
+    }
   }
 }
 </script>

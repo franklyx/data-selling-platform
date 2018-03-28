@@ -1,8 +1,10 @@
 <template>
-  <div>
+  <div @click="resetComponent">
     <div class="app-header">
       <div class="app-head-inner">
+        <a href="/">
         <img src="../assets/logo.png" alt="">
+        </a>
         <div class="head-nav">
           <ul class="nav-list">
             <li>{{ username }}</li>
@@ -41,6 +43,7 @@
 import Dialog from './base/dialog'
 import LoginForm from './logForm'
 import RegForm from './regForm'
+import { eventHub } from '../eventHub'
 export default {
   components: {
     MyDialog: Dialog,
@@ -78,6 +81,9 @@ export default {
     onSuccessReg (data) {
       this.closeDialog('isShowRegDialog')
       this.username = data.username
+    },
+    resetComponent () {
+      eventHub.$emit('reset-component')
     }
   }
 }

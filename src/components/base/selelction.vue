@@ -13,6 +13,7 @@
 </template>
 
 <script>
+import { eventHub } from '../../eventHub'
 export default {
   props: {
     selections: {
@@ -32,7 +33,9 @@ export default {
     }
   },
   methods: {
-    toggleDrop () {
+    toggleDrop (event) {
+      event.stopPropagation()
+      eventHub.$emit('reset-component')
       this.isDrop = !this.isDrop
     },
     chooseSelection (index) {
@@ -40,6 +43,11 @@ export default {
       this.isDrop = false
       this.$emit('on-change', this.selections[index])
     }
+  },
+  mounted () {
+    eventHub.$on('reset-component', () => {
+      this.isDrop = false
+    })
   }
 }
 </script>
