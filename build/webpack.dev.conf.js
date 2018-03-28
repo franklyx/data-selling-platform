@@ -9,6 +9,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
 const portfinder = require('portfinder')
+
 // json-server
 // const jsonServer = require('json-server')
 // const apiServer = jsonServer.create()
@@ -20,6 +21,19 @@ const portfinder = require('portfinder')
 // apiServer.listen(3000, () => {
 //   console.log('JSON Server is running')
 // })
+
+// express setting data simulate
+const express = require('express')
+const app = express()
+var appData = require('../data.json') //加载本地数据文件
+var login = appData.login
+var register = appData.register
+var orderList = appData.getOrderList
+var checkOrder = appData.checkOrder
+var apiRoutes = express.Router()
+app.use('/api', apiRoutes)
+
+
 
 const HOST = process.env.HOST
 const PORT = process.env.PORT && Number(process.env.PORT)
@@ -53,6 +67,32 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     quiet: true, // necessary for FriendlyErrorsPlugin
     watchOptions: {
       poll: config.dev.poll,
+    },
+    before(app) {
+      app.post('/api/login', (req, res) => {
+        res.json({
+          errno: 0,
+          data: login
+        })
+      }),
+      app.post('/api/register', (req, res) => {
+        res.json({
+          errno: 0,
+          data: register
+        })
+      }),
+      app.post('/api/get-order-list', (req, res) => {
+        res.json({
+          errno: 0,
+          data: orderList
+        })
+      }),
+      app.post('/api/check-order', (req, res) => {
+        res.json({
+          errno: 0,
+          data: checkOrder
+        })
+      })
     }
   },
   plugins: [

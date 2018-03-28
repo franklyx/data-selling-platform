@@ -85,7 +85,7 @@ export default {
         this.errorText = ''
         this.$http.post('/api/register', {username: this.usernameModel, password: this.passwordModel}).then(
           (res) => {
-            this.$emit('on-reg', res.data)
+            this.$emit('on-reg', res.data.data)
           },
           (err) => {
             console.log(err)

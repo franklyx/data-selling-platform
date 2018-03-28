@@ -5,7 +5,7 @@
         <img src="../assets/logo.png" alt="">
         <div class="head-nav">
           <ul class="nav-list">
-            <li>{{username}}</li>
+            <li>{{ username }}</li>
             <li v-if="username !== ''" class="nav-pipe">|</li>
             <li v-if="username !== ''" @click="quit">退出</li>
             <li v-if="username === ''" @click="logClick" >登录</li>
@@ -72,10 +72,12 @@ export default {
       this.username = ''
     },
     onSuccessLog (data) {
-      this.name = data.name
+      this.closeDialog('isShowLogDialog')
+      this.username = data.username
     },
     onSuccessReg (data) {
-      this.name = data.name
+      this.closeDialog('isShowRegDialog')
+      this.username = data.username
     }
   }
 }

@@ -127,9 +127,10 @@ export default {
         startDate: this.startDate,
         endDate: this.endDate
       }
-      this.$http.post('/api/getOrderList', reqParams).then(
+      this.$http.post('/api/get-order-list', reqParams).then(
         (res) => {
-          this.tableData = res.data.list
+          this.tableData = res.data.data.list
+          console.log(this.tableData)
         },
         (err) => {
           console.log(err)

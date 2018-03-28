@@ -79,8 +79,7 @@ export default {
         console.log(this.usernameModel, this.passwordModel)
         this.$http.post('api/login').then(
           (res) => {
-            this.$emit('has-log', res.data)
-            console.log(res.data)
+            this.$emit('has-log', res.data.data)
           },
           (err) => {
             console.log(err)

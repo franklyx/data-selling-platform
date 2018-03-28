@@ -35,7 +35,7 @@ export default {
   },
   methods: {
     checkStatus () {
-      this.$http.post('api/checkOrder', {orderId: this.orderId}).then(
+      this.$http.post('/api/check-order', {orderId: this.orderId}).then(
         (res) => {
           this.isShowSuccessDialog = true
           this.$emit('on-close-check-dialog')
